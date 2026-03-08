@@ -2,7 +2,7 @@ async function sendMessage(){
 
 let input = document.getElementById("chat-input").value;
 
-let response = await fetch("https://your-backend-url/chat",{
+let response = await fetch("https://cs-api-zb8v.onrender.com/chat",{
 
 method:"POST",
 
