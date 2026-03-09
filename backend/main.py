@@ -5,24 +5,26 @@ from ai import ask_ai
 
 app = FastAPI()
 
-# Allow requests from frontend (Vercel)
+# CORS (allow Vercel frontend)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # you can restrict later to your domain
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-@app.get("/")
-def home():
-    return {"message": "Car Sajawat API running"}
-
 class Message(BaseModel):
     message: str
 
+
+@app.get("/")
+async def home():
+    return {"message": "Car Sajawat API running"}
+
+
 @app.post("/chat")
-def chat(msg: Message):
+async def chat(msg: Message):
     reply = ask_ai(msg.message)
     return {"reply": reply}
 
