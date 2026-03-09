@@ -2,8 +2,8 @@ async function sendMessage() {
 
   const inputBox = document.getElementById("chat-input");
   const chat = document.getElementById("chat-messages");
-  const input = inputBox.value.trim();
 
+  const input = inputBox.value.trim();
   if (!input) return;
 
   // show user message
@@ -29,8 +29,9 @@ async function sendMessage() {
   } catch (error) {
 
     chat.innerHTML += `<p><b>AI:</b> Server error. Please try again.</p>`;
-    console.error("Chatbot error:", error);
+    console.error(error);
 
   }
+
 }
 
