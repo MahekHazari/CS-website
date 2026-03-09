@@ -1,30 +1,29 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from fastapi.middleware.cors import CORSMiddleware
 from ai import ask_ai
+
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# CORS (allow Vercel frontend)
+# Allow frontend requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],   # allow all domains
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+@app.get("/")
+def home():
+    return {"message": "Car Sajawat API running"}
+
 class Message(BaseModel):
     message: str
 
-
-@app.get("/")
-async def home():
-    return {"message": "Car Sajawat API running"}
-
-
 @app.post("/chat")
-async def chat(msg: Message):
+def chat(msg: Message):
     reply = ask_ai(msg.message)
     return {"reply": reply}
 
