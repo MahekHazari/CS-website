@@ -1,25 +1,36 @@
-async function sendMessage(){
+async function sendMessage() {
 
-let input = document.getElementById("chat-input").value;
+  const inputBox = document.getElementById("chat-input");
+  const chat = document.getElementById("chat-messages");
+  const input = inputBox.value.trim();
 
-let response = await fetch("https://cs-api-zb8v.onrender.com/chat",{
+  if (!input) return;
 
-method:"POST",
+  // show user message
+  chat.innerHTML += `<p><b>You:</b> ${input}</p>`;
 
-headers:{
-"Content-Type":"application/json"
-},
+  inputBox.value = "";
 
-body:JSON.stringify({message:input})
+  try {
 
-});
+    const response = await fetch("https://cs-api-zb8v.onrender.com/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: input })
+    });
 
-let data = await response.json();
+    const data = await response.json();
 
-let chat = document.getElementById("chat-messages");
+    // show AI response
+    chat.innerHTML += `<p><b>AI:</b> ${data.reply}</p>`;
 
-chat.innerHTML += "<p><b>You:</b> "+input+"</p>";
+  } catch (error) {
 
-chat.innerHTML += "<p><b>AI:</b> "+data.reply+"</p>";
+    chat.innerHTML += `<p><b>AI:</b> Server error. Please try again.</p>`;
+    console.error("Chatbot error:", error);
 
+  }
 }
+
